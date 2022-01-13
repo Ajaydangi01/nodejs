@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="quotes"></div>
+    <div id="author"></div>
+    <button id="btn">new quotes</button>
+    <button id="twt">Tweet</button>
+
+    <script>
+
+        const quotes = document.getElementById('quotes');
+        const author = document.getElementById('author');
+        const btn = document.getElementById('btn');
+        const twt  = document.getElementById('twt');
+
+
+
+        let realData = " ";
+        let quoteData = " ";
+
+        const tweetnow = () => {
+            let tweetpost = "https://twitter.com/intent/tweet";
+            window.open(tweetpost)
+        }
+
+        const getNewQuotes = () => {
+            let rannum = Math.floor(Math.random() *100 );
+            // console.log(realData[rannum].text);
+            quoteData = realData[rannum]
+            quotes.innerText = `${quoteData.text}`;
+            author.innerText = `${quoteData.author}`;
+            quoteData.author == null
+            ? (author.innerText  = "Unknown")
+            : (author.innerText = `${quoteData.author}`)
+
+        }
+        const getQuotes = async () => {
+            const api = "https://type.fit/api/quotes";
+            try {
+                let data = await fetch(api);
+                realData = await data.json();
+                getNewQuotes();
+                // console.log(realData.length)
+            } catch (error) {}
+        };
+        btn.addEventListener("click"  , getNewQuotes);
+        getQuotes();
+
+        twt.addEventListener('click' , tweetnow )
+
+
+    </script>
+</body>
+
+</html>

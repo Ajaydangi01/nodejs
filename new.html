@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+     <div class="box">
+    <div id="quot"></div>
+    <div id="auther"></div> <br>
+    <button id="twt">Tweet</button>
+
+   <div id="vert">
+       <button id="btn">New Quotes</button>
+    </div>
+   
+   </div>
+
+    <script>
+           
+            const quot = document.getElementById("quot");
+
+            const author = document.getElementById("author");
+
+            const btn = document.getElementById("btn");
+
+            const btn2 = document.getElementById("btn");
+
+            let reData = "";
+
+            const tweetNow = async () => {
+                tweetPost = "https://twitter.com/intent/tweet";
+                window.open(tweetPost);
+            }
+
+            const getNewQuot = async () => {
+                let rn = Math.floor(Math.random()*10);
+                quot.innerText = reData[rn].text;
+                auther.innerText = reData[rn].author;
+                // console.log(rn)
+            }
+
+            const getQuot = async () => {
+                let api = "https://type.fit/api/quotes";
+                try {
+                    let data = await fetch (api);
+                    reData = await data.json();
+                    getNewQuot();
+
+
+                    // console.log(reData[1].text)
+                    
+                } catch (error) {}
+            }
+            getQuot();
+
+            btn.addEventListener("click" , getNewQuot);
+            twt.addEventListener("click" , tweetNow)
+
+    </script>
+
+</body>
+
+</html>
