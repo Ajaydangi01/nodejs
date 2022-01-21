@@ -5,19 +5,9 @@ const schema = new mongoose.Schema({
      lname : String,
      age : Number, 
      contact  : Number,
-     address : String
+     address : String,
 })
 
 const User = mongoose.model("info" , schema)
 
 module.exports = User;
-
-
-
-
-
-
-
-
-
-

@@ -4,16 +4,22 @@ const express = require("express");
 
 const app = express()
 
-require("../db/connect")
+require("./db/connect")
 
 app.use(express.json())
 
-const User = require("./../models/model")
 
-const info = require("./../models/model");
-const { findById, findByIdAndUpdate } = require("./../models/model");
+const User = require("./models/model")
 
 
+const Post = require("./models/uservalidation");
+
+const info = require("./models/model")
+
+const { findById, findByIdAndUpdate } = require("./models/model");
+
+const uservalidation = require("./models/uservalidation");
+const res = require("express/lib/response");
 
 /** 
    @desc create user
@@ -32,19 +38,25 @@ app.post("/user", async (req, res) => {
 
 })
 
-app.get("/user", async (req, res) => {
+app.post("/post" , async (req,res) => {
+    const postBody = new Post(req.body);
+    postBody.save().then((result) =>{
+        res.send(result)
+    })
+    .catch((e) => {
+        res.send(e)
+    })
+})
+
+app.get("/post", async (req, res) => {
     try {
-        const result = await User.find({})
+        const result = await Post.find({})
         res.send(result)
     }
     catch (err) {
         res.send(err)
     }
-
 })
-
-
-        //Find by id
 
 app.get("/user/:id", async (req, res) => {
     try {
@@ -54,7 +66,6 @@ app.get("/user/:id", async (req, res) => {
         res.send(error)
     }
 })
-
 
 app.patch("/user/:id", async (req, res) => {
     try {
@@ -76,18 +87,15 @@ app.put("/user/:id" , async(req,res) => {
        }
 })
 
-
-
-app.delete("/user/:id", async (req, res) => {
+app.delete("/post/:id", async (req, res) => {
     try {
-        const result = await User.deleteOne({ _id: req.params.id }, req.body)
+        const result = await Post.deleteOne({ _id: req.params.id }, req.body)
         res.send(result)
     } catch (error) {
         res.send(error)
 
     }
 })
-
 
 app.listen(4000, () => {
     console.log("http://127.0.0.1:4000")
